@@ -1,0 +1,1759 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler 
+                                      3 ; Version 4.4.0 #14620 (Linux)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module delay
+                                      6 	.optsdcc -mstm8
+                                      7 	
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl _delay_us
+                                     12 	.globl _delay_ms
+                                     13 ;--------------------------------------------------------
+                                     14 ; ram data
+                                     15 ;--------------------------------------------------------
+                                     16 	.area DATA
+                                     17 ;--------------------------------------------------------
+                                     18 ; ram data
+                                     19 ;--------------------------------------------------------
+                                     20 	.area INITIALIZED
+                                     21 ;--------------------------------------------------------
+                                     22 ; absolute external ram data
+                                     23 ;--------------------------------------------------------
+                                     24 	.area DABS (ABS)
+                                     25 
+                                     26 ; default segment ordering for linker
+                                     27 	.area HOME
+                                     28 	.area GSINIT
+                                     29 	.area GSFINAL
+                                     30 	.area CONST
+                                     31 	.area INITIALIZER
+                                     32 	.area CODE
+                                     33 
+                                     34 ;--------------------------------------------------------
+                                     35 ; global & static initialisations
+                                     36 ;--------------------------------------------------------
+                                     37 	.area HOME
+                                     38 	.area GSINIT
+                                     39 	.area GSFINAL
+                                     40 	.area GSINIT
+                                     41 ;--------------------------------------------------------
+                                     42 ; Home
+                                     43 ;--------------------------------------------------------
+                                     44 	.area HOME
+                                     45 	.area HOME
+                                     46 ;--------------------------------------------------------
+                                     47 ; code
+                                     48 ;--------------------------------------------------------
+                                     49 	.area CODE
+                           000000    50 	Sdelay$_delay_cycl$0 ==.
+                                     51 ;	inc/delay.h: 18: static inline void _delay_cycl( unsigned short __ticks )
+                                     52 ; genLabel
+                                     53 ;	-----------------------------------------
+                                     54 ;	 function _delay_cycl
+                                     55 ;	-----------------------------------------
+                                     56 ;	Register assignment is optimal.
+                                     57 ;	Stack space usage: 0 bytes.
+      008099                         58 __delay_cycl:
+                           000000    59 	Sdelay$_delay_cycl$1 ==.
+                                     60 ; genReceive
+                           000000    61 	Sdelay$_delay_cycl$2 ==.
+                                     62 ;	inc/delay.h: 29: __asm__("nop\n nop\n"); 
+                                     63 ;	genInline
+      008099 9D               [ 1]   64 	nop
+      00809A 9D               [ 1]   65 	nop
+                           000002    66 	Sdelay$_delay_cycl$3 ==.
+                                     67 ;	inc/delay.h: 30: do { 		// ASM: ldw X, #tick; lab$: decw X; tnzw X; jrne lab$
+                                     68 ; genAssign
+                                     69 ; genLabel
+      00809B                         70 00101$:
+                           000002    71 	Sdelay$_delay_cycl$4 ==.
+                           000002    72 	Sdelay$_delay_cycl$5 ==.
+                                     73 ;	inc/delay.h: 31: __ticks--;//      2c;                 1c;     2c    ; 1/2c   
+                                     74 ; genMinus
+      00809B 5A               [ 2]   75 	decw	x
+                           000003    76 	Sdelay$_delay_cycl$6 ==.
+                           000003    77 	Sdelay$_delay_cycl$7 ==.
+                                     78 ;	inc/delay.h: 32: } while ( __ticks );
+                                     79 ; genIfx
+      00809C 5D               [ 2]   80 	tnzw	x
+      00809D 27 03            [ 1]   81 	jreq	00121$
+      00809F CC 80 9B         [ 2]   82 	jp	00101$
+      0080A2                         83 00121$:
+                           000009    84 	Sdelay$_delay_cycl$8 ==.
+                                     85 ;	inc/delay.h: 33: __asm__("nop\n");
+                                     86 ;	genInline
+      0080A2 9D               [ 1]   87 	nop
+                                     88 ; genLabel
+      0080A3                         89 00104$:
+                           00000A    90 	Sdelay$_delay_cycl$9 ==.
+                                     91 ;	inc/delay.h: 43: }
+                                     92 ; genEndFunction
+                           00000A    93 	Sdelay$_delay_cycl$10 ==.
+                           00000A    94 	XFdelay$_delay_cycl$0$0 ==.
+      0080A3 81               [ 4]   95 	ret
+                           00000B    96 	Sdelay$_delay_cycl$11 ==.
+                           00000B    97 	Sdelay$_delay_us$12 ==.
+                                     98 ;	inc/delay.h: 45: static inline void _delay_us( const unsigned short __us ){
+                                     99 ; genLabel
+                                    100 ;	-----------------------------------------
+                                    101 ;	 function _delay_us
+                                    102 ;	-----------------------------------------
+                                    103 ;	Register assignment might be sub-optimal.
+                                    104 ;	Stack space usage: 0 bytes.
+      0080A4                        105 __delay_us:
+                           00000B   106 	Sdelay$_delay_us$13 ==.
+                                    107 ; genReceive
+                           00000B   108 	Sdelay$_delay_us$14 ==.
+                                    109 ;	inc/delay.h: 46: _delay_cycl( (unsigned short)( T_COUNT(__us) ));
+                                    110 ; genCast
+                                    111 ; genAssign
+      0080A4 90 5F            [ 1]  112 	clrw	y
+                                    113 ; genIPush
+      0080A6 89               [ 2]  114 	pushw	x
+                           00000E   115 	Sdelay$_delay_us$15 ==.
+      0080A7 90 89            [ 2]  116 	pushw	y
+                           000010   117 	Sdelay$_delay_us$16 ==.
+                                    118 ; genIPush
+      0080A9 4B 00            [ 1]  119 	push	#0x00
+                           000012   120 	Sdelay$_delay_us$17 ==.
+      0080AB 4B 24            [ 1]  121 	push	#0x24
+                           000014   122 	Sdelay$_delay_us$18 ==.
+      0080AD 4B F4            [ 1]  123 	push	#0xf4
+                           000016   124 	Sdelay$_delay_us$19 ==.
+      0080AF 4B 00            [ 1]  125 	push	#0x00
+                           000018   126 	Sdelay$_delay_us$20 ==.
+                                    127 ; genCall
+      0080B1 CD 84 E3         [ 4]  128 	call	__mullong
+      0080B4 5B 08            [ 2]  129 	addw	sp, #8
+                           00001D   130 	Sdelay$_delay_us$21 ==.
+                           00001D   131 	Sdelay$_delay_us$22 ==.
+                                    132 ; genCast
+                                    133 ; genAssign
+                                    134 ; genIPush
+      0080B6 4B 40            [ 1]  135 	push	#0x40
+                           00001F   136 	Sdelay$_delay_us$23 ==.
+      0080B8 4B 42            [ 1]  137 	push	#0x42
+                           000021   138 	Sdelay$_delay_us$24 ==.
+      0080BA 4B 0F            [ 1]  139 	push	#0x0f
+                           000023   140 	Sdelay$_delay_us$25 ==.
+      0080BC 4B 00            [ 1]  141 	push	#0x00
+                           000025   142 	Sdelay$_delay_us$26 ==.
+                                    143 ; genIPush
+      0080BE 89               [ 2]  144 	pushw	x
+                           000026   145 	Sdelay$_delay_us$27 ==.
+      0080BF 90 89            [ 2]  146 	pushw	y
+                           000028   147 	Sdelay$_delay_us$28 ==.
+                                    148 ; genCall
+      0080C1 CD 83 2B         [ 4]  149 	call	__divulong
+      0080C4 5B 08            [ 2]  150 	addw	sp, #8
+                           00002D   151 	Sdelay$_delay_us$29 ==.
+                           00002D   152 	Sdelay$_delay_us$30 ==.
+                                    153 ; genRightShiftLiteral
+      0080C6 90 54            [ 2]  154 	srlw	y
+      0080C8 56               [ 2]  155 	rrcw	x
+      0080C9 90 54            [ 2]  156 	srlw	y
+      0080CB 56               [ 2]  157 	rrcw	x
+      0080CC 90 54            [ 2]  158 	srlw	y
+      0080CE 56               [ 2]  159 	rrcw	x
+                                    160 ; genCast
+                                    161 ; genAssign
+                           000036   162 	Sdelay$_delay_us$31 ==.
+                                    163 ; genPlus
+      0080CF 5C               [ 1]  164 	incw	x
+                           000037   165 	Sdelay$_delay_us$32 ==.
+                                    166 ;	inc/delay.h: 29: __asm__("nop\n nop\n"); 
+                                    167 ;	genInline
+      0080D0 9D               [ 1]  168 	nop
+      0080D1 9D               [ 1]  169 	nop
+                           000039   170 	Sdelay$_delay_us$33 ==.
+                           000039   171 	Sdelay$_delay_us$34 ==.
+                                    172 ;	inc/delay.h: 30: do { 		// ASM: ldw X, #tick; lab$: decw X; tnzw X; jrne lab$
+                                    173 ; genAssign
+                                    174 ; genLabel
+      0080D2                        175 00101$:
+                           000039   176 	Sdelay$_delay_us$35 ==.
+                                    177 ;	inc/delay.h: 31: __ticks--;//      2c;                 1c;     2c    ; 1/2c   
+                                    178 ; genMinus
+      0080D2 5A               [ 2]  179 	decw	x
+                           00003A   180 	Sdelay$_delay_us$36 ==.
+                                    181 ;	inc/delay.h: 32: } while ( __ticks );
+                                    182 ; genIfx
+      0080D3 5D               [ 2]  183 	tnzw	x
+      0080D4 27 03            [ 1]  184 	jreq	00122$
+      0080D6 CC 80 D2         [ 2]  185 	jp	00101$
+      0080D9                        186 00122$:
+                                    187 ;	inc/delay.h: 33: __asm__("nop\n");
+                                    188 ;	genInline
+      0080D9 9D               [ 1]  189 	nop
+                           000041   190 	Sdelay$_delay_us$37 ==.
+                           000041   191 	Sdelay$_delay_us$38 ==.
+                                    192 ;	inc/delay.h: 46: _delay_cycl( (unsigned short)( T_COUNT(__us) ));
+                                    193 ; genLabel
+      0080DA                        194 00105$:
+                           000041   195 	Sdelay$_delay_us$39 ==.
+                                    196 ;	inc/delay.h: 47: }
+                                    197 ; genEndFunction
+                           000041   198 	Sdelay$_delay_us$40 ==.
+                           000041   199 	XFdelay$_delay_us$0$0 ==.
+      0080DA 81               [ 4]  200 	ret
+                           000042   201 	Sdelay$_delay_us$41 ==.
+                           000042   202 	Sdelay$delay_us$42 ==.
+                                    203 ;	./src/delay.c: 4: void delay_us(uint8_t us)
+                                    204 ; genLabel
+                                    205 ;	-----------------------------------------
+                                    206 ;	 function delay_us
+                                    207 ;	-----------------------------------------
+                                    208 ;	Register assignment might be sub-optimal.
+                                    209 ;	Stack space usage: 4 bytes.
+      0080DB                        210 _delay_us:
+                           000042   211 	Sdelay$delay_us$43 ==.
+      0080DB 52 04            [ 2]  212 	sub	sp, #4
+                           000044   213 	Sdelay$delay_us$44 ==.
+                                    214 ; genReceive
+                           000044   215 	Sdelay$delay_us$45 ==.
+                                    216 ;	./src/delay.c: 6: _delay_us(us);
+                                    217 ; genCast
+                                    218 ; genAssign
+                           000044   219 	Sdelay$delay_us$46 ==.
+                                    220 ;	inc/delay.h: 46: _delay_cycl( (unsigned short)( T_COUNT(__us) ));
+                                    221 ; genCast
+                                    222 ; genAssign
+      0080DD 5F               [ 1]  223 	clrw	x
+      0080DE 0F 01            [ 1]  224 	clr	(0x01, sp)
+                           000047   225 	Sdelay$delay_us$47 ==.
+                                    226 ; genIPush
+      0080E0 88               [ 1]  227 	push	a
+                           000048   228 	Sdelay$delay_us$48 ==.
+      0080E1 89               [ 2]  229 	pushw	x
+                           000049   230 	Sdelay$delay_us$49 ==.
+      0080E2 4F               [ 1]  231 	clr	a
+      0080E3 88               [ 1]  232 	push	a
+                           00004B   233 	Sdelay$delay_us$50 ==.
+                                    234 ; genIPush
+      0080E4 4B 00            [ 1]  235 	push	#0x00
+                           00004D   236 	Sdelay$delay_us$51 ==.
+      0080E6 4B 24            [ 1]  237 	push	#0x24
+                           00004F   238 	Sdelay$delay_us$52 ==.
+      0080E8 4B F4            [ 1]  239 	push	#0xf4
+                           000051   240 	Sdelay$delay_us$53 ==.
+      0080EA 4B 00            [ 1]  241 	push	#0x00
+                           000053   242 	Sdelay$delay_us$54 ==.
+                                    243 ; genCall
+      0080EC CD 84 E3         [ 4]  244 	call	__mullong
+      0080EF 5B 08            [ 2]  245 	addw	sp, #8
+                           000058   246 	Sdelay$delay_us$55 ==.
+                                    247 ; genCast
+                                    248 ; genAssign
+                                    249 ; genIPush
+      0080F1 4B 40            [ 1]  250 	push	#0x40
+                           00005A   251 	Sdelay$delay_us$56 ==.
+      0080F3 4B 42            [ 1]  252 	push	#0x42
+                           00005C   253 	Sdelay$delay_us$57 ==.
+      0080F5 4B 0F            [ 1]  254 	push	#0x0f
+                           00005E   255 	Sdelay$delay_us$58 ==.
+      0080F7 4B 00            [ 1]  256 	push	#0x00
+                           000060   257 	Sdelay$delay_us$59 ==.
+                                    258 ; genIPush
+      0080F9 89               [ 2]  259 	pushw	x
+                           000061   260 	Sdelay$delay_us$60 ==.
+      0080FA 90 89            [ 2]  261 	pushw	y
+                           000063   262 	Sdelay$delay_us$61 ==.
+                                    263 ; genCall
+      0080FC CD 83 2B         [ 4]  264 	call	__divulong
+      0080FF 5B 08            [ 2]  265 	addw	sp, #8
+                           000068   266 	Sdelay$delay_us$62 ==.
+                                    267 ; genRightShiftLiteral
+      008101 90 54            [ 2]  268 	srlw	y
+      008103 56               [ 2]  269 	rrcw	x
+      008104 90 54            [ 2]  270 	srlw	y
+      008106 56               [ 2]  271 	rrcw	x
+      008107 90 54            [ 2]  272 	srlw	y
+      008109 56               [ 2]  273 	rrcw	x
+                                    274 ; genCast
+                                    275 ; genAssign
+                                    276 ; genPlus
+      00810A 5C               [ 1]  277 	incw	x
+                           000072   278 	Sdelay$delay_us$63 ==.
+                                    279 ;	inc/delay.h: 29: __asm__("nop\n nop\n"); 
+                                    280 ;	genInline
+      00810B 9D               [ 1]  281 	nop
+      00810C 9D               [ 1]  282 	nop
+                           000074   283 	Sdelay$delay_us$64 ==.
+                           000074   284 	Sdelay$delay_us$65 ==.
+                                    285 ;	inc/delay.h: 30: do { 		// ASM: ldw X, #tick; lab$: decw X; tnzw X; jrne lab$
+                                    286 ; genAssign
+                                    287 ; genLabel
+      00810D                        288 00101$:
+                           000074   289 	Sdelay$delay_us$66 ==.
+                                    290 ;	inc/delay.h: 31: __ticks--;//      2c;                 1c;     2c    ; 1/2c   
+                                    291 ; genMinus
+      00810D 5A               [ 2]  292 	decw	x
+                           000075   293 	Sdelay$delay_us$67 ==.
+                                    294 ;	inc/delay.h: 32: } while ( __ticks );
+                                    295 ; genIfx
+      00810E 5D               [ 2]  296 	tnzw	x
+      00810F 27 03            [ 1]  297 	jreq	00123$
+      008111 CC 81 0D         [ 2]  298 	jp	00101$
+      008114                        299 00123$:
+                                    300 ;	inc/delay.h: 33: __asm__("nop\n");
+                                    301 ;	genInline
+      008114 9D               [ 1]  302 	nop
+                           00007C   303 	Sdelay$delay_us$68 ==.
+                           00007C   304 	Sdelay$delay_us$69 ==.
+                                    305 ;	./src/delay.c: 6: _delay_us(us);
+                                    306 ; genLabel
+      008115                        307 00106$:
+                           00007C   308 	Sdelay$delay_us$70 ==.
+                                    309 ;	./src/delay.c: 7: }
+                                    310 ; genEndFunction
+      008115 5B 04            [ 2]  311 	addw	sp, #4
+                           00007E   312 	Sdelay$delay_us$71 ==.
+                           00007E   313 	Sdelay$delay_us$72 ==.
+                           00007E   314 	XG$delay_us$0$0 ==.
+      008117 81               [ 4]  315 	ret
+                           00007F   316 	Sdelay$delay_us$73 ==.
+                           00007F   317 	Sdelay$delay_ms$74 ==.
+                           00007F   318 	Sdelay$delay_ms$75 ==.
+                                    319 ;	./src/delay.c: 9: void delay_ms(uint16_t ms)
+                                    320 ; genLabel
+                                    321 ;	-----------------------------------------
+                                    322 ;	 function delay_ms
+                                    323 ;	-----------------------------------------
+                                    324 ;	Register assignment might be sub-optimal.
+                                    325 ;	Stack space usage: 2 bytes.
+      008118                        326 _delay_ms:
+                           00007F   327 	Sdelay$delay_ms$76 ==.
+      008118 89               [ 2]  328 	pushw	x
+                           000080   329 	Sdelay$delay_ms$77 ==.
+                                    330 ; genReceive
+      008119 1F 01            [ 2]  331 	ldw	(0x01, sp), x
+                           000082   332 	Sdelay$delay_ms$78 ==.
+                           000082   333 	Sdelay$delay_ms$79 ==.
+                                    334 ;	./src/delay.c: 11: for (int16_t i = 0; i < ms; i++) {
+                                    335 ; genAssign
+      00811B 90 5F            [ 1]  336 	clrw	y
+                                    337 ; genLabel
+      00811D                        338 00123$:
+                                    339 ; genCast
+                                    340 ; genAssign
+      00811D 93               [ 1]  341 	ldw	x, y
+                                    342 ; genCmp
+                                    343 ; genCmpTnz
+      00811E 13 01            [ 2]  344 	cpw	x, (0x01, sp)
+      008120 25 03            [ 1]  345 	jrc	00202$
+      008122 CC 81 5E         [ 2]  346 	jp	00125$
+      008125                        347 00202$:
+                                    348 ; skipping generated iCode
+                           00008C   349 	Sdelay$delay_ms$80 ==.
+                                    350 ;	inc/delay.h: 29: __asm__("nop\n nop\n"); 
+                                    351 ;	genInline
+      008125 9D               [ 1]  352 	nop
+      008126 9D               [ 1]  353 	nop
+                           00008E   354 	Sdelay$delay_ms$81 ==.
+                           00008E   355 	Sdelay$delay_ms$82 ==.
+                                    356 ;	inc/delay.h: 30: do { 		// ASM: ldw X, #tick; lab$: decw X; tnzw X; jrne lab$
+                                    357 ; genAssign
+      008127 AE 01 F5         [ 2]  358 	ldw	x, #0x01f5
+                                    359 ; genLabel
+      00812A                        360 00102$:
+                           000091   361 	Sdelay$delay_ms$83 ==.
+                                    362 ;	inc/delay.h: 31: __ticks--;//      2c;                 1c;     2c    ; 1/2c   
+                                    363 ; genMinus
+      00812A 5A               [ 2]  364 	decw	x
+                           000092   365 	Sdelay$delay_ms$84 ==.
+                                    366 ;	inc/delay.h: 32: } while ( __ticks );
+                                    367 ; genIfx
+      00812B 5D               [ 2]  368 	tnzw	x
+      00812C 27 03            [ 1]  369 	jreq	00203$
+      00812E CC 81 2A         [ 2]  370 	jp	00102$
+      008131                        371 00203$:
+                                    372 ;	inc/delay.h: 33: __asm__("nop\n");
+                                    373 ;	genInline
+      008131 9D               [ 1]  374 	nop
+                           000099   375 	Sdelay$delay_ms$85 ==.
+                           000099   376 	Sdelay$delay_ms$85 ==.
+                                    377 ;	inc/delay.h: 29: __asm__("nop\n nop\n"); 
+                                    378 ;	genInline
+      008132 9D               [ 1]  379 	nop
+      008133 9D               [ 1]  380 	nop
+                           00009B   381 	Sdelay$delay_ms$86 ==.
+                           00009B   382 	Sdelay$delay_ms$87 ==.
+                                    383 ;	inc/delay.h: 30: do { 		// ASM: ldw X, #tick; lab$: decw X; tnzw X; jrne lab$
+                                    384 ; genAssign
+      008134 AE 01 F5         [ 2]  385 	ldw	x, #0x01f5
+                                    386 ; genLabel
+      008137                        387 00107$:
+                           00009E   388 	Sdelay$delay_ms$88 ==.
+                                    389 ;	inc/delay.h: 31: __ticks--;//      2c;                 1c;     2c    ; 1/2c   
+                                    390 ; genMinus
+      008137 5A               [ 2]  391 	decw	x
+                           00009F   392 	Sdelay$delay_ms$89 ==.
+                                    393 ;	inc/delay.h: 32: } while ( __ticks );
+                                    394 ; genIfx
+      008138 5D               [ 2]  395 	tnzw	x
+      008139 27 03            [ 1]  396 	jreq	00204$
+      00813B CC 81 37         [ 2]  397 	jp	00107$
+      00813E                        398 00204$:
+                                    399 ;	inc/delay.h: 33: __asm__("nop\n");
+                                    400 ;	genInline
+      00813E 9D               [ 1]  401 	nop
+                           0000A6   402 	Sdelay$delay_ms$90 ==.
+                           0000A6   403 	Sdelay$delay_ms$90 ==.
+                                    404 ;	inc/delay.h: 29: __asm__("nop\n nop\n"); 
+                                    405 ;	genInline
+      00813F 9D               [ 1]  406 	nop
+      008140 9D               [ 1]  407 	nop
+                           0000A8   408 	Sdelay$delay_ms$91 ==.
+                           0000A8   409 	Sdelay$delay_ms$92 ==.
+                                    410 ;	inc/delay.h: 30: do { 		// ASM: ldw X, #tick; lab$: decw X; tnzw X; jrne lab$
+                                    411 ; genAssign
+      008141 AE 01 F5         [ 2]  412 	ldw	x, #0x01f5
+                                    413 ; genLabel
+      008144                        414 00112$:
+                           0000AB   415 	Sdelay$delay_ms$93 ==.
+                                    416 ;	inc/delay.h: 31: __ticks--;//      2c;                 1c;     2c    ; 1/2c   
+                                    417 ; genMinus
+      008144 5A               [ 2]  418 	decw	x
+                           0000AC   419 	Sdelay$delay_ms$94 ==.
+                                    420 ;	inc/delay.h: 32: } while ( __ticks );
+                                    421 ; genIfx
+      008145 5D               [ 2]  422 	tnzw	x
+      008146 27 03            [ 1]  423 	jreq	00205$
+      008148 CC 81 44         [ 2]  424 	jp	00112$
+      00814B                        425 00205$:
+                                    426 ;	inc/delay.h: 33: __asm__("nop\n");
+                                    427 ;	genInline
+      00814B 9D               [ 1]  428 	nop
+                           0000B3   429 	Sdelay$delay_ms$95 ==.
+                           0000B3   430 	Sdelay$delay_ms$95 ==.
+                                    431 ;	inc/delay.h: 29: __asm__("nop\n nop\n"); 
+                                    432 ;	genInline
+      00814C 9D               [ 1]  433 	nop
+      00814D 9D               [ 1]  434 	nop
+                           0000B5   435 	Sdelay$delay_ms$96 ==.
+                           0000B5   436 	Sdelay$delay_ms$97 ==.
+                                    437 ;	inc/delay.h: 30: do { 		// ASM: ldw X, #tick; lab$: decw X; tnzw X; jrne lab$
+                                    438 ; genAssign
+      00814E AE 01 E7         [ 2]  439 	ldw	x, #0x01e7
+                                    440 ; genLabel
+      008151                        441 00117$:
+                           0000B8   442 	Sdelay$delay_ms$98 ==.
+                                    443 ;	inc/delay.h: 31: __ticks--;//      2c;                 1c;     2c    ; 1/2c   
+                                    444 ; genMinus
+      008151 5A               [ 2]  445 	decw	x
+                           0000B9   446 	Sdelay$delay_ms$99 ==.
+                                    447 ;	inc/delay.h: 32: } while ( __ticks );
+                                    448 ; genIfx
+      008152 5D               [ 2]  449 	tnzw	x
+      008153 27 03            [ 1]  450 	jreq	00206$
+      008155 CC 81 51         [ 2]  451 	jp	00117$
+      008158                        452 00206$:
+                                    453 ;	inc/delay.h: 33: __asm__("nop\n");
+                                    454 ;	genInline
+      008158 9D               [ 1]  455 	nop
+                           0000C0   456 	Sdelay$delay_ms$100 ==.
+                           0000C0   457 	Sdelay$delay_ms$101 ==.
+                                    458 ;	./src/delay.c: 11: for (int16_t i = 0; i < ms; i++) {
+                                    459 ; genPlus
+      008159 90 5C            [ 1]  460 	incw	y
+                                    461 ; genGoto
+      00815B CC 81 1D         [ 2]  462 	jp	00123$
+                                    463 ; genLabel
+      00815E                        464 00125$:
+                           0000C5   465 	Sdelay$delay_ms$102 ==.
+                                    466 ;	./src/delay.c: 17: }
+                                    467 ; genEndFunction
+      00815E 85               [ 2]  468 	popw	x
+                           0000C6   469 	Sdelay$delay_ms$103 ==.
+                           0000C6   470 	Sdelay$delay_ms$104 ==.
+                           0000C6   471 	XG$delay_ms$0$0 ==.
+      00815F 81               [ 4]  472 	ret
+                           0000C7   473 	Sdelay$delay_ms$105 ==.
+                                    474 	.area CODE
+                                    475 	.area CONST
+                                    476 	.area INITIALIZER
+                                    477 	.area CABS (ABS)
+                                    478 
+                                    479 	.area .debug_line (NOLOAD)
+      000000 00 00 02 10            480 	.dw	0,Ldebug_line_end-Ldebug_line_start
+      000004                        481 Ldebug_line_start:
+      000004 00 02                  482 	.dw	2
+      000006 00 00 01 00            483 	.dw	0,Ldebug_line_stmt-6-Ldebug_line_start
+      00000A 01                     484 	.db	1
+      00000B 01                     485 	.db	1
+      00000C FB                     486 	.db	-5
+      00000D 0F                     487 	.db	15
+      00000E 0A                     488 	.db	10
+      00000F 00                     489 	.db	0
+      000010 01                     490 	.db	1
+      000011 01                     491 	.db	1
+      000012 01                     492 	.db	1
+      000013 01                     493 	.db	1
+      000014 00                     494 	.db	0
+      000015 00                     495 	.db	0
+      000016 00                     496 	.db	0
+      000017 01                     497 	.db	1
+      000018 2F 75 73 72 2F 6C 6F   498 	.ascii "/usr/local/stow/sdcc-4.4.0/bin/../share/sdcc/include/stm8"
+             63 61 6C 2F 73 74 6F
+             77 2F 73 64 63 63 2D
+             34 2E 34 2E 30 2F 62
+             69 6E 2F 2E 2E 2F 73
+             68 61 72 65 2F 73 64
+             63 63 2F 69 6E 63 6C
+             75 64 65 2F 73 74 6D
+             38
+      000051 00                     499 	.db	0
+      000052 2F 75 73 72 2F 6C 6F   500 	.ascii "/usr/local/stow/sdcc-4.4.0/share/sdcc/include/stm8"
+             63 61 6C 2F 73 74 6F
+             77 2F 73 64 63 63 2D
+             34 2E 34 2E 30 2F 73
+             68 61 72 65 2F 73 64
+             63 63 2F 69 6E 63 6C
+             75 64 65 2F 73 74 6D
+             38
+      000084 00                     501 	.db	0
+      000085 2F 75 73 72 2F 6C 6F   502 	.ascii "/usr/local/stow/sdcc-4.4.0/bin/../share/sdcc/include"
+             63 61 6C 2F 73 74 6F
+             77 2F 73 64 63 63 2D
+             34 2E 34 2E 30 2F 62
+             69 6E 2F 2E 2E 2F 73
+             68 61 72 65 2F 73 64
+             63 63 2F 69 6E 63 6C
+             75 64 65
+      0000B9 00                     503 	.db	0
+      0000BA 2F 75 73 72 2F 6C 6F   504 	.ascii "/usr/local/stow/sdcc-4.4.0/share/sdcc/include"
+             63 61 6C 2F 73 74 6F
+             77 2F 73 64 63 63 2D
+             34 2E 34 2E 30 2F 73
+             68 61 72 65 2F 73 64
+             63 63 2F 69 6E 63 6C
+             75 64 65
+      0000E7 00                     505 	.db	0
+      0000E8 00                     506 	.db	0
+      0000E9 69 6E 63 2F 64 65 6C   507 	.ascii "inc/delay.h"
+             61 79 2E 68
+      0000F4 00                     508 	.db	0
+      0000F5 00                     509 	.uleb128	0
+      0000F6 00                     510 	.uleb128	0
+      0000F7 00                     511 	.uleb128	0
+      0000F8 2E 2F 73 72 63 2F 64   512 	.ascii "./src/delay.c"
+             65 6C 61 79 2E 63
+      000105 00                     513 	.db	0
+      000106 00                     514 	.uleb128	0
+      000107 00                     515 	.uleb128	0
+      000108 00                     516 	.uleb128	0
+      000109 00                     517 	.db	0
+      00010A                        518 Ldebug_line_stmt:
+      00010A 00                     519 	.db	0
+      00010B 05                     520 	.uleb128	5
+      00010C 02                     521 	.db	2
+      00010D 00 00 80 99            522 	.dw	0,(Sdelay$_delay_cycl$0)
+      000111 03                     523 	.db	3
+      000112 11                     524 	.sleb128	17
+      000113 01                     525 	.db	1
+      000114 00                     526 	.db	0
+      000115 05                     527 	.uleb128	5
+      000116 02                     528 	.db	2
+      000117 00 00 80 99            529 	.dw	0,(Sdelay$_delay_cycl$2)
+      00011B 03                     530 	.db	3
+      00011C 0B                     531 	.sleb128	11
+      00011D 01                     532 	.db	1
+      00011E 00                     533 	.db	0
+      00011F 05                     534 	.uleb128	5
+      000120 02                     535 	.db	2
+      000121 00 00 80 9B            536 	.dw	0,(Sdelay$_delay_cycl$3)
+      000125 03                     537 	.db	3
+      000126 01                     538 	.sleb128	1
+      000127 01                     539 	.db	1
+      000128 00                     540 	.db	0
+      000129 05                     541 	.uleb128	5
+      00012A 02                     542 	.db	2
+      00012B 00 00 80 9B            543 	.dw	0,(Sdelay$_delay_cycl$5)
+      00012F 03                     544 	.db	3
+      000130 01                     545 	.sleb128	1
+      000131 01                     546 	.db	1
+      000132 00                     547 	.db	0
+      000133 05                     548 	.uleb128	5
+      000134 02                     549 	.db	2
+      000135 00 00 80 9C            550 	.dw	0,(Sdelay$_delay_cycl$7)
+      000139 03                     551 	.db	3
+      00013A 01                     552 	.sleb128	1
+      00013B 01                     553 	.db	1
+      00013C 00                     554 	.db	0
+      00013D 05                     555 	.uleb128	5
+      00013E 02                     556 	.db	2
+      00013F 00 00 80 A2            557 	.dw	0,(Sdelay$_delay_cycl$8)
+      000143 03                     558 	.db	3
+      000144 01                     559 	.sleb128	1
+      000145 01                     560 	.db	1
+      000146 00                     561 	.db	0
+      000147 05                     562 	.uleb128	5
+      000148 02                     563 	.db	2
+      000149 00 00 80 A3            564 	.dw	0,(Sdelay$_delay_cycl$9)
+      00014D 03                     565 	.db	3
+      00014E 0A                     566 	.sleb128	10
+      00014F 01                     567 	.db	1
+      000150 09                     568 	.db	9
+      000151 00 01                  569 	.dw	1+Sdelay$_delay_cycl$10-Sdelay$_delay_cycl$9
+      000153 00                     570 	.db	0
+      000154 01                     571 	.uleb128	1
+      000155 01                     572 	.db	1
+      000156 00                     573 	.db	0
+      000157 05                     574 	.uleb128	5
+      000158 02                     575 	.db	2
+      000159 00 00 80 A4            576 	.dw	0,(Sdelay$_delay_us$12)
+      00015D 03                     577 	.db	3
+      00015E 2C                     578 	.sleb128	44
+      00015F 01                     579 	.db	1
+      000160 00                     580 	.db	0
+      000161 05                     581 	.uleb128	5
+      000162 02                     582 	.db	2
+      000163 00 00 80 D2            583 	.dw	0,(Sdelay$_delay_us$34)
+      000167 03                     584 	.db	3
+      000168 71                     585 	.sleb128	-15
+      000169 01                     586 	.db	1
+      00016A 00                     587 	.db	0
+      00016B 05                     588 	.uleb128	5
+      00016C 02                     589 	.db	2
+      00016D 00 00 80 DA            590 	.dw	0,(Sdelay$_delay_us$38)
+      000171 03                     591 	.db	3
+      000172 10                     592 	.sleb128	16
+      000173 01                     593 	.db	1
+      000174 00                     594 	.db	0
+      000175 05                     595 	.uleb128	5
+      000176 02                     596 	.db	2
+      000177 00 00 80 DA            597 	.dw	0,(Sdelay$_delay_us$39)
+      00017B 03                     598 	.db	3
+      00017C 01                     599 	.sleb128	1
+      00017D 01                     600 	.db	1
+      00017E 09                     601 	.db	9
+      00017F 00 01                  602 	.dw	1+Sdelay$_delay_us$40-Sdelay$_delay_us$39
+      000181 00                     603 	.db	0
+      000182 01                     604 	.uleb128	1
+      000183 01                     605 	.db	1
+      000184 04                     606 	.db	4
+      000185 02                     607 	.uleb128	2
+      000186 00                     608 	.db	0
+      000187 05                     609 	.uleb128	5
+      000188 02                     610 	.db	2
+      000189 00 00 80 DB            611 	.dw	0,(Sdelay$delay_us$42)
+      00018D 03                     612 	.db	3
+      00018E 03                     613 	.sleb128	3
+      00018F 01                     614 	.db	1
+      000190 04                     615 	.db	4
+      000191 01                     616 	.uleb128	1
+      000192 00                     617 	.db	0
+      000193 05                     618 	.uleb128	5
+      000194 02                     619 	.db	2
+      000195 00 00 81 0D            620 	.dw	0,(Sdelay$delay_us$65)
+      000199 03                     621 	.db	3
+      00019A 1A                     622 	.sleb128	26
+      00019B 01                     623 	.db	1
+      00019C 04                     624 	.db	4
+      00019D 02                     625 	.uleb128	2
+      00019E 00                     626 	.db	0
+      00019F 05                     627 	.uleb128	5
+      0001A0 02                     628 	.db	2
+      0001A1 00 00 81 15            629 	.dw	0,(Sdelay$delay_us$69)
+      0001A5 03                     630 	.db	3
+      0001A6 68                     631 	.sleb128	-24
+      0001A7 01                     632 	.db	1
+      0001A8 00                     633 	.db	0
+      0001A9 05                     634 	.uleb128	5
+      0001AA 02                     635 	.db	2
+      0001AB 00 00 81 15            636 	.dw	0,(Sdelay$delay_us$70)
+      0001AF 03                     637 	.db	3
+      0001B0 01                     638 	.sleb128	1
+      0001B1 01                     639 	.db	1
+      0001B2 09                     640 	.db	9
+      0001B3 00 03                  641 	.dw	1+Sdelay$delay_us$72-Sdelay$delay_us$70
+      0001B5 00                     642 	.db	0
+      0001B6 01                     643 	.uleb128	1
+      0001B7 01                     644 	.db	1
+      0001B8 04                     645 	.db	4
+      0001B9 02                     646 	.uleb128	2
+      0001BA 00                     647 	.db	0
+      0001BB 05                     648 	.uleb128	5
+      0001BC 02                     649 	.db	2
+      0001BD 00 00 81 18            650 	.dw	0,(Sdelay$delay_ms$75)
+      0001C1 03                     651 	.db	3
+      0001C2 08                     652 	.sleb128	8
+      0001C3 01                     653 	.db	1
+      0001C4 00                     654 	.db	0
+      0001C5 05                     655 	.uleb128	5
+      0001C6 02                     656 	.db	2
+      0001C7 00 00 81 1B            657 	.dw	0,(Sdelay$delay_ms$79)
+      0001CB 03                     658 	.db	3
+      0001CC 02                     659 	.sleb128	2
+      0001CD 01                     660 	.db	1
+      0001CE 04                     661 	.db	4
+      0001CF 01                     662 	.uleb128	1
+      0001D0 00                     663 	.db	0
+      0001D1 05                     664 	.uleb128	5
+      0001D2 02                     665 	.db	2
+      0001D3 00 00 81 27            666 	.dw	0,(Sdelay$delay_ms$82)
+      0001D7 03                     667 	.db	3
+      0001D8 13                     668 	.sleb128	19
+      0001D9 01                     669 	.db	1
+      0001DA 00                     670 	.db	0
+      0001DB 05                     671 	.uleb128	5
+      0001DC 02                     672 	.db	2
+      0001DD 00 00 81 34            673 	.dw	0,(Sdelay$delay_ms$87)
+      0001E1 03                     674 	.db	3
+      0001E2 00                     675 	.sleb128	0
+      0001E3 01                     676 	.db	1
+      0001E4 00                     677 	.db	0
+      0001E5 05                     678 	.uleb128	5
+      0001E6 02                     679 	.db	2
+      0001E7 00 00 81 41            680 	.dw	0,(Sdelay$delay_ms$92)
+      0001EB 03                     681 	.db	3
+      0001EC 00                     682 	.sleb128	0
+      0001ED 01                     683 	.db	1
+      0001EE 00                     684 	.db	0
+      0001EF 05                     685 	.uleb128	5
+      0001F0 02                     686 	.db	2
+      0001F1 00 00 81 4E            687 	.dw	0,(Sdelay$delay_ms$97)
+      0001F5 03                     688 	.db	3
+      0001F6 00                     689 	.sleb128	0
+      0001F7 01                     690 	.db	1
+      0001F8 04                     691 	.db	4
+      0001F9 02                     692 	.uleb128	2
+      0001FA 00                     693 	.db	0
+      0001FB 05                     694 	.uleb128	5
+      0001FC 02                     695 	.db	2
+      0001FD 00 00 81 59            696 	.dw	0,(Sdelay$delay_ms$101)
+      000201 03                     697 	.db	3
+      000202 6D                     698 	.sleb128	-19
+      000203 01                     699 	.db	1
+      000204 00                     700 	.db	0
+      000205 05                     701 	.uleb128	5
+      000206 02                     702 	.db	2
+      000207 00 00 81 5E            703 	.dw	0,(Sdelay$delay_ms$102)
+      00020B 03                     704 	.db	3
+      00020C 06                     705 	.sleb128	6
+      00020D 01                     706 	.db	1
+      00020E 09                     707 	.db	9
+      00020F 00 02                  708 	.dw	1+Sdelay$delay_ms$104-Sdelay$delay_ms$102
+      000211 00                     709 	.db	0
+      000212 01                     710 	.uleb128	1
+      000213 01                     711 	.db	1
+      000214                        712 Ldebug_line_end:
+                                    713 
+                                    714 	.area .debug_loc (NOLOAD)
+      000000                        715 Ldebug_loc_start:
+      000000 00 00 81 5F            716 	.dw	0,(Sdelay$delay_ms$103)
+      000004 00 00 81 60            717 	.dw	0,(Sdelay$delay_ms$105)
+      000008 00 02                  718 	.dw	2
+      00000A 78                     719 	.db	120
+      00000B 01                     720 	.sleb128	1
+      00000C 00 00 81 19            721 	.dw	0,(Sdelay$delay_ms$77)
+      000010 00 00 81 5F            722 	.dw	0,(Sdelay$delay_ms$103)
+      000014 00 02                  723 	.dw	2
+      000016 78                     724 	.db	120
+      000017 03                     725 	.sleb128	3
+      000018 00 00 81 18            726 	.dw	0,(Sdelay$delay_ms$76)
+      00001C 00 00 81 19            727 	.dw	0,(Sdelay$delay_ms$77)
+      000020 00 02                  728 	.dw	2
+      000022 78                     729 	.db	120
+      000023 01                     730 	.sleb128	1
+      000024 00 00 00 00            731 	.dw	0,0
+      000028 00 00 00 00            732 	.dw	0,0
+      00002C 00 00 81 17            733 	.dw	0,(Sdelay$delay_us$71)
+      000030 00 00 81 18            734 	.dw	0,(Sdelay$delay_us$73)
+      000034 00 02                  735 	.dw	2
+      000036 78                     736 	.db	120
+      000037 01                     737 	.sleb128	1
+      000038 00 00 81 01            738 	.dw	0,(Sdelay$delay_us$62)
+      00003C 00 00 81 17            739 	.dw	0,(Sdelay$delay_us$71)
+      000040 00 02                  740 	.dw	2
+      000042 78                     741 	.db	120
+      000043 05                     742 	.sleb128	5
+      000044 00 00 80 FC            743 	.dw	0,(Sdelay$delay_us$61)
+      000048 00 00 81 01            744 	.dw	0,(Sdelay$delay_us$62)
+      00004C 00 02                  745 	.dw	2
+      00004E 78                     746 	.db	120
+      00004F 0D                     747 	.sleb128	13
+      000050 00 00 80 FA            748 	.dw	0,(Sdelay$delay_us$60)
+      000054 00 00 80 FC            749 	.dw	0,(Sdelay$delay_us$61)
+      000058 00 02                  750 	.dw	2
+      00005A 78                     751 	.db	120
+      00005B 0B                     752 	.sleb128	11
+      00005C 00 00 80 F9            753 	.dw	0,(Sdelay$delay_us$59)
+      000060 00 00 80 FA            754 	.dw	0,(Sdelay$delay_us$60)
+      000064 00 02                  755 	.dw	2
+      000066 78                     756 	.db	120
+      000067 09                     757 	.sleb128	9
+      000068 00 00 80 F7            758 	.dw	0,(Sdelay$delay_us$58)
+      00006C 00 00 80 F9            759 	.dw	0,(Sdelay$delay_us$59)
+      000070 00 02                  760 	.dw	2
+      000072 78                     761 	.db	120
+      000073 08                     762 	.sleb128	8
+      000074 00 00 80 F5            763 	.dw	0,(Sdelay$delay_us$57)
+      000078 00 00 80 F7            764 	.dw	0,(Sdelay$delay_us$58)
+      00007C 00 02                  765 	.dw	2
+      00007E 78                     766 	.db	120
+      00007F 07                     767 	.sleb128	7
+      000080 00 00 80 F3            768 	.dw	0,(Sdelay$delay_us$56)
+      000084 00 00 80 F5            769 	.dw	0,(Sdelay$delay_us$57)
+      000088 00 02                  770 	.dw	2
+      00008A 78                     771 	.db	120
+      00008B 06                     772 	.sleb128	6
+      00008C 00 00 80 F1            773 	.dw	0,(Sdelay$delay_us$55)
+      000090 00 00 80 F3            774 	.dw	0,(Sdelay$delay_us$56)
+      000094 00 02                  775 	.dw	2
+      000096 78                     776 	.db	120
+      000097 05                     777 	.sleb128	5
+      000098 00 00 80 EC            778 	.dw	0,(Sdelay$delay_us$54)
+      00009C 00 00 80 F1            779 	.dw	0,(Sdelay$delay_us$55)
+      0000A0 00 02                  780 	.dw	2
+      0000A2 78                     781 	.db	120
+      0000A3 0D                     782 	.sleb128	13
+      0000A4 00 00 80 EA            783 	.dw	0,(Sdelay$delay_us$53)
+      0000A8 00 00 80 EC            784 	.dw	0,(Sdelay$delay_us$54)
+      0000AC 00 02                  785 	.dw	2
+      0000AE 78                     786 	.db	120
+      0000AF 0C                     787 	.sleb128	12
+      0000B0 00 00 80 E8            788 	.dw	0,(Sdelay$delay_us$52)
+      0000B4 00 00 80 EA            789 	.dw	0,(Sdelay$delay_us$53)
+      0000B8 00 02                  790 	.dw	2
+      0000BA 78                     791 	.db	120
+      0000BB 0B                     792 	.sleb128	11
+      0000BC 00 00 80 E6            793 	.dw	0,(Sdelay$delay_us$51)
+      0000C0 00 00 80 E8            794 	.dw	0,(Sdelay$delay_us$52)
+      0000C4 00 02                  795 	.dw	2
+      0000C6 78                     796 	.db	120
+      0000C7 0A                     797 	.sleb128	10
+      0000C8 00 00 80 E4            798 	.dw	0,(Sdelay$delay_us$50)
+      0000CC 00 00 80 E6            799 	.dw	0,(Sdelay$delay_us$51)
+      0000D0 00 02                  800 	.dw	2
+      0000D2 78                     801 	.db	120
+      0000D3 09                     802 	.sleb128	9
+      0000D4 00 00 80 E2            803 	.dw	0,(Sdelay$delay_us$49)
+      0000D8 00 00 80 E4            804 	.dw	0,(Sdelay$delay_us$50)
+      0000DC 00 02                  805 	.dw	2
+      0000DE 78                     806 	.db	120
+      0000DF 08                     807 	.sleb128	8
+      0000E0 00 00 80 E1            808 	.dw	0,(Sdelay$delay_us$48)
+      0000E4 00 00 80 E2            809 	.dw	0,(Sdelay$delay_us$49)
+      0000E8 00 02                  810 	.dw	2
+      0000EA 78                     811 	.db	120
+      0000EB 06                     812 	.sleb128	6
+      0000EC 00 00 80 DD            813 	.dw	0,(Sdelay$delay_us$44)
+      0000F0 00 00 80 E1            814 	.dw	0,(Sdelay$delay_us$48)
+      0000F4 00 02                  815 	.dw	2
+      0000F6 78                     816 	.db	120
+      0000F7 05                     817 	.sleb128	5
+      0000F8 00 00 80 DB            818 	.dw	0,(Sdelay$delay_us$43)
+      0000FC 00 00 80 DD            819 	.dw	0,(Sdelay$delay_us$44)
+      000100 00 02                  820 	.dw	2
+      000102 78                     821 	.db	120
+      000103 01                     822 	.sleb128	1
+      000104 00 00 00 00            823 	.dw	0,0
+      000108 00 00 00 00            824 	.dw	0,0
+      00010C 00 00 80 C6            825 	.dw	0,(Sdelay$_delay_us$29)
+      000110 00 00 80 DB            826 	.dw	0,(Sdelay$_delay_us$41)
+      000114 00 02                  827 	.dw	2
+      000116 78                     828 	.db	120
+      000117 01                     829 	.sleb128	1
+      000118 00 00 80 C1            830 	.dw	0,(Sdelay$_delay_us$28)
+      00011C 00 00 80 C6            831 	.dw	0,(Sdelay$_delay_us$29)
+      000120 00 02                  832 	.dw	2
+      000122 78                     833 	.db	120
+      000123 09                     834 	.sleb128	9
+      000124 00 00 80 BF            835 	.dw	0,(Sdelay$_delay_us$27)
+      000128 00 00 80 C1            836 	.dw	0,(Sdelay$_delay_us$28)
+      00012C 00 02                  837 	.dw	2
+      00012E 78                     838 	.db	120
+      00012F 07                     839 	.sleb128	7
+      000130 00 00 80 BE            840 	.dw	0,(Sdelay$_delay_us$26)
+      000134 00 00 80 BF            841 	.dw	0,(Sdelay$_delay_us$27)
+      000138 00 02                  842 	.dw	2
+      00013A 78                     843 	.db	120
+      00013B 05                     844 	.sleb128	5
+      00013C 00 00 80 BC            845 	.dw	0,(Sdelay$_delay_us$25)
+      000140 00 00 80 BE            846 	.dw	0,(Sdelay$_delay_us$26)
+      000144 00 02                  847 	.dw	2
+      000146 78                     848 	.db	120
+      000147 04                     849 	.sleb128	4
+      000148 00 00 80 BA            850 	.dw	0,(Sdelay$_delay_us$24)
+      00014C 00 00 80 BC            851 	.dw	0,(Sdelay$_delay_us$25)
+      000150 00 02                  852 	.dw	2
+      000152 78                     853 	.db	120
+      000153 03                     854 	.sleb128	3
+      000154 00 00 80 B8            855 	.dw	0,(Sdelay$_delay_us$23)
+      000158 00 00 80 BA            856 	.dw	0,(Sdelay$_delay_us$24)
+      00015C 00 02                  857 	.dw	2
+      00015E 78                     858 	.db	120
+      00015F 02                     859 	.sleb128	2
+      000160 00 00 80 B6            860 	.dw	0,(Sdelay$_delay_us$21)
+      000164 00 00 80 B8            861 	.dw	0,(Sdelay$_delay_us$23)
+      000168 00 02                  862 	.dw	2
+      00016A 78                     863 	.db	120
+      00016B 01                     864 	.sleb128	1
+      00016C 00 00 80 B1            865 	.dw	0,(Sdelay$_delay_us$20)
+      000170 00 00 80 B6            866 	.dw	0,(Sdelay$_delay_us$21)
+      000174 00 02                  867 	.dw	2
+      000176 78                     868 	.db	120
+      000177 09                     869 	.sleb128	9
+      000178 00 00 80 AF            870 	.dw	0,(Sdelay$_delay_us$19)
+      00017C 00 00 80 B1            871 	.dw	0,(Sdelay$_delay_us$20)
+      000180 00 02                  872 	.dw	2
+      000182 78                     873 	.db	120
+      000183 08                     874 	.sleb128	8
+      000184 00 00 80 AD            875 	.dw	0,(Sdelay$_delay_us$18)
+      000188 00 00 80 AF            876 	.dw	0,(Sdelay$_delay_us$19)
+      00018C 00 02                  877 	.dw	2
+      00018E 78                     878 	.db	120
+      00018F 07                     879 	.sleb128	7
+      000190 00 00 80 AB            880 	.dw	0,(Sdelay$_delay_us$17)
+      000194 00 00 80 AD            881 	.dw	0,(Sdelay$_delay_us$18)
+      000198 00 02                  882 	.dw	2
+      00019A 78                     883 	.db	120
+      00019B 06                     884 	.sleb128	6
+      00019C 00 00 80 A9            885 	.dw	0,(Sdelay$_delay_us$16)
+      0001A0 00 00 80 AB            886 	.dw	0,(Sdelay$_delay_us$17)
+      0001A4 00 02                  887 	.dw	2
+      0001A6 78                     888 	.db	120
+      0001A7 05                     889 	.sleb128	5
+      0001A8 00 00 80 A7            890 	.dw	0,(Sdelay$_delay_us$15)
+      0001AC 00 00 80 A9            891 	.dw	0,(Sdelay$_delay_us$16)
+      0001B0 00 02                  892 	.dw	2
+      0001B2 78                     893 	.db	120
+      0001B3 03                     894 	.sleb128	3
+      0001B4 00 00 80 A4            895 	.dw	0,(Sdelay$_delay_us$13)
+      0001B8 00 00 80 A7            896 	.dw	0,(Sdelay$_delay_us$15)
+      0001BC 00 02                  897 	.dw	2
+      0001BE 78                     898 	.db	120
+      0001BF 01                     899 	.sleb128	1
+      0001C0 00 00 00 00            900 	.dw	0,0
+      0001C4 00 00 00 00            901 	.dw	0,0
+      0001C8 00 00 80 99            902 	.dw	0,(Sdelay$_delay_cycl$1)
+      0001CC 00 00 80 A4            903 	.dw	0,(Sdelay$_delay_cycl$11)
+      0001D0 00 02                  904 	.dw	2
+      0001D2 78                     905 	.db	120
+      0001D3 01                     906 	.sleb128	1
+      0001D4 00 00 00 00            907 	.dw	0,0
+      0001D8 00 00 00 00            908 	.dw	0,0
+                                    909 
+                                    910 	.area .debug_abbrev (NOLOAD)
+      000000                        911 Ldebug_abbrev:
+      000000 01                     912 	.uleb128	1
+      000001 11                     913 	.uleb128	17
+      000002 01                     914 	.db	1
+      000003 03                     915 	.uleb128	3
+      000004 08                     916 	.uleb128	8
+      000005 10                     917 	.uleb128	16
+      000006 06                     918 	.uleb128	6
+      000007 13                     919 	.uleb128	19
+      000008 0B                     920 	.uleb128	11
+      000009 25                     921 	.uleb128	37
+      00000A 08                     922 	.uleb128	8
+      00000B 00                     923 	.uleb128	0
+      00000C 00                     924 	.uleb128	0
+      00000D 02                     925 	.uleb128	2
+      00000E 2E                     926 	.uleb128	46
+      00000F 01                     927 	.db	1
+      000010 01                     928 	.uleb128	1
+      000011 13                     929 	.uleb128	19
+      000012 03                     930 	.uleb128	3
+      000013 08                     931 	.uleb128	8
+      000014 11                     932 	.uleb128	17
+      000015 01                     933 	.uleb128	1
+      000016 12                     934 	.uleb128	18
+      000017 01                     935 	.uleb128	1
+      000018 3F                     936 	.uleb128	63
+      000019 0C                     937 	.uleb128	12
+      00001A 40                     938 	.uleb128	64
+      00001B 06                     939 	.uleb128	6
+      00001C 00                     940 	.uleb128	0
+      00001D 00                     941 	.uleb128	0
+      00001E 03                     942 	.uleb128	3
+      00001F 05                     943 	.uleb128	5
+      000020 00                     944 	.db	0
+      000021 02                     945 	.uleb128	2
+      000022 0A                     946 	.uleb128	10
+      000023 03                     947 	.uleb128	3
+      000024 08                     948 	.uleb128	8
+      000025 49                     949 	.uleb128	73
+      000026 13                     950 	.uleb128	19
+      000027 00                     951 	.uleb128	0
+      000028 00                     952 	.uleb128	0
+      000029 04                     953 	.uleb128	4
+      00002A 0B                     954 	.uleb128	11
+      00002B 00                     955 	.db	0
+      00002C 11                     956 	.uleb128	17
+      00002D 01                     957 	.uleb128	1
+      00002E 12                     958 	.uleb128	18
+      00002F 01                     959 	.uleb128	1
+      000030 00                     960 	.uleb128	0
+      000031 00                     961 	.uleb128	0
+      000032 05                     962 	.uleb128	5
+      000033 24                     963 	.uleb128	36
+      000034 00                     964 	.db	0
+      000035 03                     965 	.uleb128	3
+      000036 08                     966 	.uleb128	8
+      000037 0B                     967 	.uleb128	11
+      000038 0B                     968 	.uleb128	11
+      000039 3E                     969 	.uleb128	62
+      00003A 0B                     970 	.uleb128	11
+      00003B 00                     971 	.uleb128	0
+      00003C 00                     972 	.uleb128	0
+      00003D 06                     973 	.uleb128	6
+      00003E 26                     974 	.uleb128	38
+      00003F 00                     975 	.db	0
+      000040 49                     976 	.uleb128	73
+      000041 13                     977 	.uleb128	19
+      000042 00                     978 	.uleb128	0
+      000043 00                     979 	.uleb128	0
+      000044 07                     980 	.uleb128	7
+      000045 0B                     981 	.uleb128	11
+      000046 01                     982 	.db	1
+      000047 11                     983 	.uleb128	17
+      000048 01                     984 	.uleb128	1
+      000049 12                     985 	.uleb128	18
+      00004A 01                     986 	.uleb128	1
+      00004B 00                     987 	.uleb128	0
+      00004C 00                     988 	.uleb128	0
+      00004D 08                     989 	.uleb128	8
+      00004E 0B                     990 	.uleb128	11
+      00004F 01                     991 	.db	1
+      000050 01                     992 	.uleb128	1
+      000051 13                     993 	.uleb128	19
+      000052 00                     994 	.uleb128	0
+      000053 00                     995 	.uleb128	0
+      000054 09                     996 	.uleb128	9
+      000055 0B                     997 	.uleb128	11
+      000056 01                     998 	.db	1
+      000057 01                     999 	.uleb128	1
+      000058 13                    1000 	.uleb128	19
+      000059 11                    1001 	.uleb128	17
+      00005A 01                    1002 	.uleb128	1
+      00005B 12                    1003 	.uleb128	18
+      00005C 01                    1004 	.uleb128	1
+      00005D 00                    1005 	.uleb128	0
+      00005E 00                    1006 	.uleb128	0
+      00005F 0A                    1007 	.uleb128	10
+      000060 34                    1008 	.uleb128	52
+      000061 00                    1009 	.db	0
+      000062 02                    1010 	.uleb128	2
+      000063 0A                    1011 	.uleb128	10
+      000064 03                    1012 	.uleb128	3
+      000065 08                    1013 	.uleb128	8
+      000066 49                    1014 	.uleb128	73
+      000067 13                    1015 	.uleb128	19
+      000068 00                    1016 	.uleb128	0
+      000069 00                    1017 	.uleb128	0
+      00006A 0B                    1018 	.uleb128	11
+      00006B 0B                    1019 	.uleb128	11
+      00006C 01                    1020 	.db	1
+      00006D 11                    1021 	.uleb128	17
+      00006E 01                    1022 	.uleb128	1
+      00006F 00                    1023 	.uleb128	0
+      000070 00                    1024 	.uleb128	0
+      000071 0C                    1025 	.uleb128	12
+      000072 0B                    1026 	.uleb128	11
+      000073 01                    1027 	.db	1
+      000074 00                    1028 	.uleb128	0
+      000075 00                    1029 	.uleb128	0
+      000076 00                    1030 	.uleb128	0
+                                   1031 
+                                   1032 	.area .debug_info (NOLOAD)
+      000000 00 00 03 D8           1033 	.dw	0,Ldebug_info_end-Ldebug_info_start
+      000004                       1034 Ldebug_info_start:
+      000004 00 02                 1035 	.dw	2
+      000006 00 00 00 00           1036 	.dw	0,(Ldebug_abbrev)
+      00000A 04                    1037 	.db	4
+      00000B 01                    1038 	.uleb128	1
+      00000C 2E 2F 73 72 63 2F 64  1039 	.ascii "./src/delay.c"
+             65 6C 61 79 2E 63
+      000019 00                    1040 	.db	0
+      00001A 00 00 00 00           1041 	.dw	0,(Ldebug_line_start+-4)
+      00001E 01                    1042 	.db	1
+      00001F 53 44 43 43 20 76 65  1043 	.ascii "SDCC version 4.4.0 #14620"
+             72 73 69 6F 6E 20 34
+             2E 34 2E 30 20 23 31
+             34 36 32 30
+      000038 00                    1044 	.db	0
+      000039 02                    1045 	.uleb128	2
+      00003A 00 00 00 75           1046 	.dw	0,117
+      00003E 5F 64 65 6C 61 79 5F  1047 	.ascii "_delay_cycl"
+             63 79 63 6C
+      000049 00                    1048 	.db	0
+      00004A 00 00 80 99           1049 	.dw	0,(__delay_cycl)
+      00004E 00 00 80 A4           1050 	.dw	0,(XFdelay$_delay_cycl$0$0+1)
+      000052 00                    1051 	.db	0
+      000053 00 00 01 C8           1052 	.dw	0,(Ldebug_loc_start+456)
+      000057 03                    1053 	.uleb128	3
+      000058 06                    1054 	.db	6
+      000059 52                    1055 	.db	82
+      00005A 93                    1056 	.db	147
+      00005B 01                    1057 	.uleb128	1
+      00005C 51                    1058 	.db	81
+      00005D 93                    1059 	.db	147
+      00005E 01                    1060 	.uleb128	1
+      00005F 5F 5F 74 69 63 6B 73  1061 	.ascii "__ticks"
+      000066 00                    1062 	.db	0
+      000067 00 00 00 75           1063 	.dw	0,117
+      00006B 04                    1064 	.uleb128	4
+      00006C 00 00 80 9B           1065 	.dw	0,(Sdelay$_delay_cycl$4)
+      000070 00 00 80 9C           1066 	.dw	0,(Sdelay$_delay_cycl$6)
+      000074 00                    1067 	.uleb128	0
+      000075 05                    1068 	.uleb128	5
+      000076 75 6E 73 69 67 6E 65  1069 	.ascii "unsigned int"
+             64 20 69 6E 74
+      000082 00                    1070 	.db	0
+      000083 02                    1071 	.db	2
+      000084 07                    1072 	.db	7
+      000085 02                    1073 	.uleb128	2
+      000086 00 00 01 07           1074 	.dw	0,263
+      00008A 5F 64 65 6C 61 79 5F  1075 	.ascii "_delay_us"
+             75 73
+      000093 00                    1076 	.db	0
+      000094 00 00 80 A4           1077 	.dw	0,(__delay_us)
+      000098 00 00 80 DB           1078 	.dw	0,(XFdelay$_delay_us$0$0+1)
+      00009C 00                    1079 	.db	0
+      00009D 00 00 01 0C           1080 	.dw	0,(Ldebug_loc_start+268)
+      0000A1 06                    1081 	.uleb128	6
+      0000A2 00 00 00 75           1082 	.dw	0,117
+      0000A6 03                    1083 	.uleb128	3
+      0000A7 06                    1084 	.db	6
+      0000A8 52                    1085 	.db	82
+      0000A9 93                    1086 	.db	147
+      0000AA 01                    1087 	.uleb128	1
+      0000AB 51                    1088 	.db	81
+      0000AC 93                    1089 	.db	147
+      0000AD 01                    1090 	.uleb128	1
+      0000AE 5F 5F 75 73           1091 	.ascii "__us"
+      0000B2 00                    1092 	.db	0
+      0000B3 00 00 00 A1           1093 	.dw	0,161
+      0000B7 07                    1094 	.uleb128	7
+      0000B8 00 00 80 A4           1095 	.dw	0,(Sdelay$_delay_us$14)
+      0000BC 00 00 80 CF           1096 	.dw	0,(Sdelay$_delay_us$31)
+      0000C0 08                    1097 	.uleb128	8
+      0000C1 00 00 00 F1           1098 	.dw	0,241
+      0000C5 09                    1099 	.uleb128	9
+      0000C6 00 00 00 DC           1100 	.dw	0,220
+      0000CA 00 00 80 D0           1101 	.dw	0,(Sdelay$_delay_us$32)
+      0000CE 00 00 80 DA           1102 	.dw	0,(Sdelay$_delay_us$37)
+      0000D2 04                    1103 	.uleb128	4
+      0000D3 00 00 80 D2           1104 	.dw	0,(Sdelay$_delay_us$35)
+      0000D7 00 00 80 D3           1105 	.dw	0,(Sdelay$_delay_us$36)
+      0000DB 00                    1106 	.uleb128	0
+      0000DC 0A                    1107 	.uleb128	10
+      0000DD 06                    1108 	.db	6
+      0000DE 52                    1109 	.db	82
+      0000DF 93                    1110 	.db	147
+      0000E0 01                    1111 	.uleb128	1
+      0000E1 51                    1112 	.db	81
+      0000E2 93                    1113 	.db	147
+      0000E3 01                    1114 	.uleb128	1
+      0000E4 5F 5F 74 69 63 6B 73  1115 	.ascii "__ticks"
+      0000EB 00                    1116 	.db	0
+      0000EC 00 00 00 75           1117 	.dw	0,117
+      0000F0 00                    1118 	.uleb128	0
+      0000F1 0A                    1119 	.uleb128	10
+      0000F2 02                    1120 	.db	2
+      0000F3 91                    1121 	.db	145
+      0000F4 00                    1122 	.sleb128	0
+      0000F5 5F 5F 32 30 30 30 30  1123 	.ascii "__200000010"
+             30 30 31 30
+      000100 00                    1124 	.db	0
+      000101 00 00 00 75           1125 	.dw	0,117
+      000105 00                    1126 	.uleb128	0
+      000106 00                    1127 	.uleb128	0
+      000107 02                    1128 	.uleb128	2
+      000108 00 00 01 AE           1129 	.dw	0,430
+      00010C 64 65 6C 61 79 5F 75  1130 	.ascii "delay_us"
+             73
+      000114 00                    1131 	.db	0
+      000115 00 00 80 DB           1132 	.dw	0,(_delay_us)
+      000119 00 00 81 18           1133 	.dw	0,(XG$delay_us$0$0+1)
+      00011D 01                    1134 	.db	1
+      00011E 00 00 00 2C           1135 	.dw	0,(Ldebug_loc_start+44)
+      000122 03                    1136 	.uleb128	3
+      000123 01                    1137 	.db	1
+      000124 50                    1138 	.db	80
+      000125 75 73                 1139 	.ascii "us"
+      000127 00                    1140 	.db	0
+      000128 00 00 01 AE           1141 	.dw	0,430
+      00012C 0B                    1142 	.uleb128	11
+      00012D 00 00 80 DD           1143 	.dw	0,(Sdelay$delay_us$45)
+      000131 08                    1144 	.uleb128	8
+      000132 00 00 01 99           1145 	.dw	0,409
+      000136 08                    1146 	.uleb128	8
+      000137 00 00 01 8B           1147 	.dw	0,395
+      00013B 07                    1148 	.uleb128	7
+      00013C 00 00 80 DD           1149 	.dw	0,(Sdelay$delay_us$46)
+      000140 00 00 80 E0           1150 	.dw	0,(Sdelay$delay_us$47)
+      000144 08                    1151 	.uleb128	8
+      000145 00 00 01 75           1152 	.dw	0,373
+      000149 09                    1153 	.uleb128	9
+      00014A 00 00 01 60           1154 	.dw	0,352
+      00014E 00 00 81 0B           1155 	.dw	0,(Sdelay$delay_us$63)
+      000152 00 00 81 15           1156 	.dw	0,(Sdelay$delay_us$68)
+      000156 04                    1157 	.uleb128	4
+      000157 00 00 81 0D           1158 	.dw	0,(Sdelay$delay_us$66)
+      00015B 00 00 81 0E           1159 	.dw	0,(Sdelay$delay_us$67)
+      00015F 00                    1160 	.uleb128	0
+      000160 0A                    1161 	.uleb128	10
+      000161 06                    1162 	.db	6
+      000162 52                    1163 	.db	82
+      000163 93                    1164 	.db	147
+      000164 01                    1165 	.uleb128	1
+      000165 51                    1166 	.db	81
+      000166 93                    1167 	.db	147
+      000167 01                    1168 	.uleb128	1
+      000168 5F 5F 74 69 63 6B 73  1169 	.ascii "__ticks"
+      00016F 00                    1170 	.db	0
+      000170 00 00 00 75           1171 	.dw	0,117
+      000174 00                    1172 	.uleb128	0
+      000175 0A                    1173 	.uleb128	10
+      000176 02                    1174 	.db	2
+      000177 91                    1175 	.db	145
+      000178 00                    1176 	.sleb128	0
+      000179 5F 5F 32 30 30 30 30  1177 	.ascii "__200000010"
+             30 30 31 30
+      000184 00                    1178 	.db	0
+      000185 00 00 00 75           1179 	.dw	0,117
+      000189 00                    1180 	.uleb128	0
+      00018A 00                    1181 	.uleb128	0
+      00018B 0A                    1182 	.uleb128	10
+      00018C 02                    1183 	.db	2
+      00018D 91                    1184 	.db	145
+      00018E 00                    1185 	.sleb128	0
+      00018F 5F 5F 75 73           1186 	.ascii "__us"
+      000193 00                    1187 	.db	0
+      000194 00 00 00 A1           1188 	.dw	0,161
+      000198 00                    1189 	.uleb128	0
+      000199 0A                    1190 	.uleb128	10
+      00019A 01                    1191 	.db	1
+      00019B 50                    1192 	.db	80
+      00019C 5F 5F 32 30 30 30 30  1193 	.ascii "__200000012"
+             30 30 31 32
+      0001A7 00                    1194 	.db	0
+      0001A8 00 00 00 A1           1195 	.dw	0,161
+      0001AC 00                    1196 	.uleb128	0
+      0001AD 00                    1197 	.uleb128	0
+      0001AE 05                    1198 	.uleb128	5
+      0001AF 75 6E 73 69 67 6E 65  1199 	.ascii "unsigned char"
+             64 20 63 68 61 72
+      0001BC 00                    1200 	.db	0
+      0001BD 01                    1201 	.db	1
+      0001BE 08                    1202 	.db	8
+      0001BF 02                    1203 	.uleb128	2
+      0001C0 00 00 03 D4           1204 	.dw	0,980
+      0001C4 64 65 6C 61 79 5F 6D  1205 	.ascii "delay_ms"
+             73
+      0001CC 00                    1206 	.db	0
+      0001CD 00 00 81 18           1207 	.dw	0,(_delay_ms)
+      0001D1 00 00 81 60           1208 	.dw	0,(XG$delay_ms$0$0+1)
+      0001D5 01                    1209 	.db	1
+      0001D6 00 00 00 00           1210 	.dw	0,(Ldebug_loc_start)
+      0001DA 03                    1211 	.uleb128	3
+      0001DB 02                    1212 	.db	2
+      0001DC 91                    1213 	.db	145
+      0001DD 7E                    1214 	.sleb128	-2
+      0001DE 6D 73                 1215 	.ascii "ms"
+      0001E0 00                    1216 	.db	0
+      0001E1 00 00 00 75           1217 	.dw	0,117
+      0001E5 07                    1218 	.uleb128	7
+      0001E6 00 00 81 18           1219 	.dw	0,(Sdelay$delay_ms$74)
+      0001EA 00 00 81 1B           1220 	.dw	0,(Sdelay$delay_ms$78)
+      0001EE 08                    1221 	.uleb128	8
+      0001EF 00 00 03 C8           1222 	.dw	0,968
+      0001F3 08                    1223 	.uleb128	8
+      0001F4 00 00 02 69           1224 	.dw	0,617
+      0001F8 08                    1225 	.uleb128	8
+      0001F9 00 00 02 54           1226 	.dw	0,596
+      0001FD 08                    1227 	.uleb128	8
+      0001FE 00 00 02 46           1228 	.dw	0,582
+      000202 0C                    1229 	.uleb128	12
+      000203 08                    1230 	.uleb128	8
+      000204 00 00 02 30           1231 	.dw	0,560
+      000208 09                    1232 	.uleb128	9
+      000209 00 00 02 1F           1233 	.dw	0,543
+      00020D 00 00 81 25           1234 	.dw	0,(Sdelay$delay_ms$80)
+      000211 00 00 81 32           1235 	.dw	0,(Sdelay$delay_ms$85)
+      000215 04                    1236 	.uleb128	4
+      000216 00 00 81 2A           1237 	.dw	0,(Sdelay$delay_ms$83)
+      00021A 00 00 81 2B           1238 	.dw	0,(Sdelay$delay_ms$84)
+      00021E 00                    1239 	.uleb128	0
+      00021F 0A                    1240 	.uleb128	10
+      000220 02                    1241 	.db	2
+      000221 91                    1242 	.db	145
+      000222 00                    1243 	.sleb128	0
+      000223 5F 5F 74 69 63 6B 73  1244 	.ascii "__ticks"
+      00022A 00                    1245 	.db	0
+      00022B 00 00 00 75           1246 	.dw	0,117
+      00022F 00                    1247 	.uleb128	0
+      000230 0A                    1248 	.uleb128	10
+      000231 02                    1249 	.db	2
+      000232 91                    1250 	.db	145
+      000233 00                    1251 	.sleb128	0
+      000234 5F 5F 32 30 30 30 30  1252 	.ascii "__200000010"
+             30 30 31 30
+      00023F 00                    1253 	.db	0
+      000240 00 00 00 75           1254 	.dw	0,117
+      000244 00                    1255 	.uleb128	0
+      000245 00                    1256 	.uleb128	0
+      000246 0A                    1257 	.uleb128	10
+      000247 02                    1258 	.db	2
+      000248 91                    1259 	.db	145
+      000249 00                    1260 	.sleb128	0
+      00024A 5F 5F 75 73           1261 	.ascii "__us"
+      00024E 00                    1262 	.db	0
+      00024F 00 00 00 A1           1263 	.dw	0,161
+      000253 00                    1264 	.uleb128	0
+      000254 0A                    1265 	.uleb128	10
+      000255 02                    1266 	.db	2
+      000256 91                    1267 	.db	145
+      000257 00                    1268 	.sleb128	0
+      000258 5F 5F 34 30 30 30 30  1269 	.ascii "__400000014"
+             30 30 31 34
+      000263 00                    1270 	.db	0
+      000264 00 00 00 A1           1271 	.dw	0,161
+      000268 00                    1272 	.uleb128	0
+      000269 08                    1273 	.uleb128	8
+      00026A 00 00 02 DF           1274 	.dw	0,735
+      00026E 08                    1275 	.uleb128	8
+      00026F 00 00 02 CA           1276 	.dw	0,714
+      000273 08                    1277 	.uleb128	8
+      000274 00 00 02 BC           1278 	.dw	0,700
+      000278 0C                    1279 	.uleb128	12
+      000279 08                    1280 	.uleb128	8
+      00027A 00 00 02 A6           1281 	.dw	0,678
+      00027E 09                    1282 	.uleb128	9
+      00027F 00 00 02 95           1283 	.dw	0,661
+      000283 00 00 81 32           1284 	.dw	0,(Sdelay$delay_ms$85)
+      000287 00 00 81 3F           1285 	.dw	0,(Sdelay$delay_ms$90)
+      00028B 04                    1286 	.uleb128	4
+      00028C 00 00 81 37           1287 	.dw	0,(Sdelay$delay_ms$88)
+      000290 00 00 81 38           1288 	.dw	0,(Sdelay$delay_ms$89)
+      000294 00                    1289 	.uleb128	0
+      000295 0A                    1290 	.uleb128	10
+      000296 02                    1291 	.db	2
+      000297 91                    1292 	.db	145
+      000298 00                    1293 	.sleb128	0
+      000299 5F 5F 74 69 63 6B 73  1294 	.ascii "__ticks"
+      0002A0 00                    1295 	.db	0
+      0002A1 00 00 00 75           1296 	.dw	0,117
+      0002A5 00                    1297 	.uleb128	0
+      0002A6 0A                    1298 	.uleb128	10
+      0002A7 02                    1299 	.db	2
+      0002A8 91                    1300 	.db	145
+      0002A9 00                    1301 	.sleb128	0
+      0002AA 5F 5F 32 30 30 30 30  1302 	.ascii "__200000010"
+             30 30 31 30
+      0002B5 00                    1303 	.db	0
+      0002B6 00 00 00 75           1304 	.dw	0,117
+      0002BA 00                    1305 	.uleb128	0
+      0002BB 00                    1306 	.uleb128	0
+      0002BC 0A                    1307 	.uleb128	10
+      0002BD 02                    1308 	.db	2
+      0002BE 91                    1309 	.db	145
+      0002BF 00                    1310 	.sleb128	0
+      0002C0 5F 5F 75 73           1311 	.ascii "__us"
+      0002C4 00                    1312 	.db	0
+      0002C5 00 00 00 A1           1313 	.dw	0,161
+      0002C9 00                    1314 	.uleb128	0
+      0002CA 0A                    1315 	.uleb128	10
+      0002CB 02                    1316 	.db	2
+      0002CC 91                    1317 	.db	145
+      0002CD 00                    1318 	.sleb128	0
+      0002CE 5F 5F 34 30 30 30 30  1319 	.ascii "__400000016"
+             30 30 31 36
+      0002D9 00                    1320 	.db	0
+      0002DA 00 00 00 A1           1321 	.dw	0,161
+      0002DE 00                    1322 	.uleb128	0
+      0002DF 08                    1323 	.uleb128	8
+      0002E0 00 00 03 55           1324 	.dw	0,853
+      0002E4 08                    1325 	.uleb128	8
+      0002E5 00 00 03 40           1326 	.dw	0,832
+      0002E9 08                    1327 	.uleb128	8
+      0002EA 00 00 03 32           1328 	.dw	0,818
+      0002EE 0C                    1329 	.uleb128	12
+      0002EF 08                    1330 	.uleb128	8
+      0002F0 00 00 03 1C           1331 	.dw	0,796
+      0002F4 09                    1332 	.uleb128	9
+      0002F5 00 00 03 0B           1333 	.dw	0,779
+      0002F9 00 00 81 3F           1334 	.dw	0,(Sdelay$delay_ms$90)
+      0002FD 00 00 81 4C           1335 	.dw	0,(Sdelay$delay_ms$95)
+      000301 04                    1336 	.uleb128	4
+      000302 00 00 81 44           1337 	.dw	0,(Sdelay$delay_ms$93)
+      000306 00 00 81 45           1338 	.dw	0,(Sdelay$delay_ms$94)
+      00030A 00                    1339 	.uleb128	0
+      00030B 0A                    1340 	.uleb128	10
+      00030C 02                    1341 	.db	2
+      00030D 91                    1342 	.db	145
+      00030E 00                    1343 	.sleb128	0
+      00030F 5F 5F 74 69 63 6B 73  1344 	.ascii "__ticks"
+      000316 00                    1345 	.db	0
+      000317 00 00 00 75           1346 	.dw	0,117
+      00031B 00                    1347 	.uleb128	0
+      00031C 0A                    1348 	.uleb128	10
+      00031D 02                    1349 	.db	2
+      00031E 91                    1350 	.db	145
+      00031F 00                    1351 	.sleb128	0
+      000320 5F 5F 32 30 30 30 30  1352 	.ascii "__200000010"
+             30 30 31 30
+      00032B 00                    1353 	.db	0
+      00032C 00 00 00 75           1354 	.dw	0,117
+      000330 00                    1355 	.uleb128	0
+      000331 00                    1356 	.uleb128	0
+      000332 0A                    1357 	.uleb128	10
+      000333 02                    1358 	.db	2
+      000334 91                    1359 	.db	145
+      000335 00                    1360 	.sleb128	0
+      000336 5F 5F 75 73           1361 	.ascii "__us"
+      00033A 00                    1362 	.db	0
+      00033B 00 00 00 A1           1363 	.dw	0,161
+      00033F 00                    1364 	.uleb128	0
+      000340 0A                    1365 	.uleb128	10
+      000341 02                    1366 	.db	2
+      000342 91                    1367 	.db	145
+      000343 00                    1368 	.sleb128	0
+      000344 5F 5F 34 30 30 30 30  1369 	.ascii "__400000018"
+             30 30 31 38
+      00034F 00                    1370 	.db	0
+      000350 00 00 00 A1           1371 	.dw	0,161
+      000354 00                    1372 	.uleb128	0
+      000355 0C                    1373 	.uleb128	12
+      000356 08                    1374 	.uleb128	8
+      000357 00 00 03 B2           1375 	.dw	0,946
+      00035B 08                    1376 	.uleb128	8
+      00035C 00 00 03 A4           1377 	.dw	0,932
+      000360 0C                    1378 	.uleb128	12
+      000361 08                    1379 	.uleb128	8
+      000362 00 00 03 8E           1380 	.dw	0,910
+      000366 09                    1381 	.uleb128	9
+      000367 00 00 03 7D           1382 	.dw	0,893
+      00036B 00 00 81 4C           1383 	.dw	0,(Sdelay$delay_ms$95)
+      00036F 00 00 81 59           1384 	.dw	0,(Sdelay$delay_ms$100)
+      000373 04                    1385 	.uleb128	4
+      000374 00 00 81 51           1386 	.dw	0,(Sdelay$delay_ms$98)
+      000378 00 00 81 52           1387 	.dw	0,(Sdelay$delay_ms$99)
+      00037C 00                    1388 	.uleb128	0
+      00037D 0A                    1389 	.uleb128	10
+      00037E 02                    1390 	.db	2
+      00037F 91                    1391 	.db	145
+      000380 00                    1392 	.sleb128	0
+      000381 5F 5F 74 69 63 6B 73  1393 	.ascii "__ticks"
+      000388 00                    1394 	.db	0
+      000389 00 00 00 75           1395 	.dw	0,117
+      00038D 00                    1396 	.uleb128	0
+      00038E 0A                    1397 	.uleb128	10
+      00038F 02                    1398 	.db	2
+      000390 91                    1399 	.db	145
+      000391 00                    1400 	.sleb128	0
+      000392 5F 5F 32 30 30 30 30  1401 	.ascii "__200000010"
+             30 30 31 30
+      00039D 00                    1402 	.db	0
+      00039E 00 00 00 75           1403 	.dw	0,117
+      0003A2 00                    1404 	.uleb128	0
+      0003A3 00                    1405 	.uleb128	0
+      0003A4 0A                    1406 	.uleb128	10
+      0003A5 02                    1407 	.db	2
+      0003A6 91                    1408 	.db	145
+      0003A7 00                    1409 	.sleb128	0
+      0003A8 5F 5F 75 73           1410 	.ascii "__us"
+      0003AC 00                    1411 	.db	0
+      0003AD 00 00 00 A1           1412 	.dw	0,161
+      0003B1 00                    1413 	.uleb128	0
+      0003B2 0A                    1414 	.uleb128	10
+      0003B3 02                    1415 	.db	2
+      0003B4 91                    1416 	.db	145
+      0003B5 00                    1417 	.sleb128	0
+      0003B6 5F 5F 34 30 30 30 30  1418 	.ascii "__400000020"
+             30 30 32 30
+      0003C1 00                    1419 	.db	0
+      0003C2 00 00 00 A1           1420 	.dw	0,161
+      0003C6 00                    1421 	.uleb128	0
+      0003C7 00                    1422 	.uleb128	0
+      0003C8 0A                    1423 	.uleb128	10
+      0003C9 02                    1424 	.db	2
+      0003CA 91                    1425 	.db	145
+      0003CB 00                    1426 	.sleb128	0
+      0003CC 69                    1427 	.ascii "i"
+      0003CD 00                    1428 	.db	0
+      0003CE 00 00 03 D4           1429 	.dw	0,980
+      0003D2 00                    1430 	.uleb128	0
+      0003D3 00                    1431 	.uleb128	0
+      0003D4 05                    1432 	.uleb128	5
+      0003D5 69 6E 74              1433 	.ascii "int"
+      0003D8 00                    1434 	.db	0
+      0003D9 02                    1435 	.db	2
+      0003DA 05                    1436 	.db	5
+      0003DB 00                    1437 	.uleb128	0
+      0003DC                       1438 Ldebug_info_end:
+                                   1439 
+                                   1440 	.area .debug_pubnames (NOLOAD)
+      000000 00 00 00 28           1441 	.dw	0,Ldebug_pubnames_end-Ldebug_pubnames_start
+      000004                       1442 Ldebug_pubnames_start:
+      000004 00 02                 1443 	.dw	2
+      000006 00 00 00 00           1444 	.dw	0,(Ldebug_info_start-4)
+      00000A 00 00 03 DC           1445 	.dw	0,4+Ldebug_info_end-Ldebug_info_start
+      00000E 00 00 01 07           1446 	.dw	0,263
+      000012 64 65 6C 61 79 5F 75  1447 	.ascii "delay_us"
+             73
+      00001A 00                    1448 	.db	0
+      00001B 00 00 01 BF           1449 	.dw	0,447
+      00001F 64 65 6C 61 79 5F 6D  1450 	.ascii "delay_ms"
+             73
+      000027 00                    1451 	.db	0
+      000028 00 00 00 00           1452 	.dw	0,0
+      00002C                       1453 Ldebug_pubnames_end:
+                                   1454 
+                                   1455 	.area .debug_frame (NOLOAD)
+      000000 00 00                 1456 	.dw	0
+      000002 00 10                 1457 	.dw	Ldebug_CIE0_end-Ldebug_CIE0_start
+      000004                       1458 Ldebug_CIE0_start:
+      000004 FF FF                 1459 	.dw	0xffff
+      000006 FF FF                 1460 	.dw	0xffff
+      000008 01                    1461 	.db	1
+      000009 00                    1462 	.db	0
+      00000A 01                    1463 	.uleb128	1
+      00000B 7F                    1464 	.sleb128	-1
+      00000C 09                    1465 	.db	9
+      00000D 0C                    1466 	.db	12
+      00000E 08                    1467 	.uleb128	8
+      00000F 02                    1468 	.uleb128	2
+      000010 89                    1469 	.db	137
+      000011 01                    1470 	.uleb128	1
+      000012 00                    1471 	.db	0
+      000013 00                    1472 	.db	0
+      000014                       1473 Ldebug_CIE0_end:
+      000014 00 00 00 24           1474 	.dw	0,36
+      000018 00 00 00 00           1475 	.dw	0,(Ldebug_CIE0_start-4)
+      00001C 00 00 81 18           1476 	.dw	0,(Sdelay$delay_ms$76)	;initial loc
+      000020 00 00 00 48           1477 	.dw	0,Sdelay$delay_ms$105-Sdelay$delay_ms$76
+      000024 01                    1478 	.db	1
+      000025 00 00 81 18           1479 	.dw	0,(Sdelay$delay_ms$76)
+      000029 0E                    1480 	.db	14
+      00002A 02                    1481 	.uleb128	2
+      00002B 01                    1482 	.db	1
+      00002C 00 00 81 19           1483 	.dw	0,(Sdelay$delay_ms$77)
+      000030 0E                    1484 	.db	14
+      000031 04                    1485 	.uleb128	4
+      000032 01                    1486 	.db	1
+      000033 00 00 81 5F           1487 	.dw	0,(Sdelay$delay_ms$103)
+      000037 0E                    1488 	.db	14
+      000038 02                    1489 	.uleb128	2
+      000039 00                    1490 	.db	0
+      00003A 00                    1491 	.db	0
+      00003B 00                    1492 	.db	0
+                                   1493 
+                                   1494 	.area .debug_frame (NOLOAD)
+      00003C 00 00                 1495 	.dw	0
+      00003E 00 10                 1496 	.dw	Ldebug_CIE1_end-Ldebug_CIE1_start
+      000040                       1497 Ldebug_CIE1_start:
+      000040 FF FF                 1498 	.dw	0xffff
+      000042 FF FF                 1499 	.dw	0xffff
+      000044 01                    1500 	.db	1
+      000045 00                    1501 	.db	0
+      000046 01                    1502 	.uleb128	1
+      000047 7F                    1503 	.sleb128	-1
+      000048 09                    1504 	.db	9
+      000049 0C                    1505 	.db	12
+      00004A 08                    1506 	.uleb128	8
+      00004B 02                    1507 	.uleb128	2
+      00004C 89                    1508 	.db	137
+      00004D 01                    1509 	.uleb128	1
+      00004E 00                    1510 	.db	0
+      00004F 00                    1511 	.db	0
+      000050                       1512 Ldebug_CIE1_end:
+      000050 00 00 00 8C           1513 	.dw	0,140
+      000054 00 00 00 3C           1514 	.dw	0,(Ldebug_CIE1_start-4)
+      000058 00 00 80 DB           1515 	.dw	0,(Sdelay$delay_us$43)	;initial loc
+      00005C 00 00 00 3D           1516 	.dw	0,Sdelay$delay_us$73-Sdelay$delay_us$43
+      000060 01                    1517 	.db	1
+      000061 00 00 80 DB           1518 	.dw	0,(Sdelay$delay_us$43)
+      000065 0E                    1519 	.db	14
+      000066 02                    1520 	.uleb128	2
+      000067 01                    1521 	.db	1
+      000068 00 00 80 DD           1522 	.dw	0,(Sdelay$delay_us$44)
+      00006C 0E                    1523 	.db	14
+      00006D 06                    1524 	.uleb128	6
+      00006E 01                    1525 	.db	1
+      00006F 00 00 80 E1           1526 	.dw	0,(Sdelay$delay_us$48)
+      000073 0E                    1527 	.db	14
+      000074 07                    1528 	.uleb128	7
+      000075 01                    1529 	.db	1
+      000076 00 00 80 E2           1530 	.dw	0,(Sdelay$delay_us$49)
+      00007A 0E                    1531 	.db	14
+      00007B 09                    1532 	.uleb128	9
+      00007C 01                    1533 	.db	1
+      00007D 00 00 80 E4           1534 	.dw	0,(Sdelay$delay_us$50)
+      000081 0E                    1535 	.db	14
+      000082 0A                    1536 	.uleb128	10
+      000083 01                    1537 	.db	1
+      000084 00 00 80 E6           1538 	.dw	0,(Sdelay$delay_us$51)
+      000088 0E                    1539 	.db	14
+      000089 0B                    1540 	.uleb128	11
+      00008A 01                    1541 	.db	1
+      00008B 00 00 80 E8           1542 	.dw	0,(Sdelay$delay_us$52)
+      00008F 0E                    1543 	.db	14
+      000090 0C                    1544 	.uleb128	12
+      000091 01                    1545 	.db	1
+      000092 00 00 80 EA           1546 	.dw	0,(Sdelay$delay_us$53)
+      000096 0E                    1547 	.db	14
+      000097 0D                    1548 	.uleb128	13
+      000098 01                    1549 	.db	1
+      000099 00 00 80 EC           1550 	.dw	0,(Sdelay$delay_us$54)
+      00009D 0E                    1551 	.db	14
+      00009E 0E                    1552 	.uleb128	14
+      00009F 01                    1553 	.db	1
+      0000A0 00 00 80 F1           1554 	.dw	0,(Sdelay$delay_us$55)
+      0000A4 0E                    1555 	.db	14
+      0000A5 06                    1556 	.uleb128	6
+      0000A6 01                    1557 	.db	1
+      0000A7 00 00 80 F3           1558 	.dw	0,(Sdelay$delay_us$56)
+      0000AB 0E                    1559 	.db	14
+      0000AC 07                    1560 	.uleb128	7
+      0000AD 01                    1561 	.db	1
+      0000AE 00 00 80 F5           1562 	.dw	0,(Sdelay$delay_us$57)
+      0000B2 0E                    1563 	.db	14
+      0000B3 08                    1564 	.uleb128	8
+      0000B4 01                    1565 	.db	1
+      0000B5 00 00 80 F7           1566 	.dw	0,(Sdelay$delay_us$58)
+      0000B9 0E                    1567 	.db	14
+      0000BA 09                    1568 	.uleb128	9
+      0000BB 01                    1569 	.db	1
+      0000BC 00 00 80 F9           1570 	.dw	0,(Sdelay$delay_us$59)
+      0000C0 0E                    1571 	.db	14
+      0000C1 0A                    1572 	.uleb128	10
+      0000C2 01                    1573 	.db	1
+      0000C3 00 00 80 FA           1574 	.dw	0,(Sdelay$delay_us$60)
+      0000C7 0E                    1575 	.db	14
+      0000C8 0C                    1576 	.uleb128	12
+      0000C9 01                    1577 	.db	1
+      0000CA 00 00 80 FC           1578 	.dw	0,(Sdelay$delay_us$61)
+      0000CE 0E                    1579 	.db	14
+      0000CF 0E                    1580 	.uleb128	14
+      0000D0 01                    1581 	.db	1
+      0000D1 00 00 81 01           1582 	.dw	0,(Sdelay$delay_us$62)
+      0000D5 0E                    1583 	.db	14
+      0000D6 06                    1584 	.uleb128	6
+      0000D7 01                    1585 	.db	1
+      0000D8 00 00 81 17           1586 	.dw	0,(Sdelay$delay_us$71)
+      0000DC 0E                    1587 	.db	14
+      0000DD 02                    1588 	.uleb128	2
+      0000DE 00                    1589 	.db	0
+      0000DF 00                    1590 	.db	0
+                                   1591 
+                                   1592 	.area .debug_frame (NOLOAD)
+      0000E0 00 00                 1593 	.dw	0
+      0000E2 00 10                 1594 	.dw	Ldebug_CIE2_end-Ldebug_CIE2_start
+      0000E4                       1595 Ldebug_CIE2_start:
+      0000E4 FF FF                 1596 	.dw	0xffff
+      0000E6 FF FF                 1597 	.dw	0xffff
+      0000E8 01                    1598 	.db	1
+      0000E9 00                    1599 	.db	0
+      0000EA 01                    1600 	.uleb128	1
+      0000EB 7F                    1601 	.sleb128	-1
+      0000EC 09                    1602 	.db	9
+      0000ED 0C                    1603 	.db	12
+      0000EE 08                    1604 	.uleb128	8
+      0000EF 02                    1605 	.uleb128	2
+      0000F0 89                    1606 	.db	137
+      0000F1 01                    1607 	.uleb128	1
+      0000F2 00                    1608 	.db	0
+      0000F3 00                    1609 	.db	0
+      0000F4                       1610 Ldebug_CIE2_end:
+      0000F4 00 00 00 78           1611 	.dw	0,120
+      0000F8 00 00 00 E0           1612 	.dw	0,(Ldebug_CIE2_start-4)
+      0000FC 00 00 80 A4           1613 	.dw	0,(Sdelay$_delay_us$13)	;initial loc
+      000100 00 00 00 37           1614 	.dw	0,Sdelay$_delay_us$41-Sdelay$_delay_us$13
+      000104 01                    1615 	.db	1
+      000105 00 00 80 A4           1616 	.dw	0,(Sdelay$_delay_us$13)
+      000109 0E                    1617 	.db	14
+      00010A 02                    1618 	.uleb128	2
+      00010B 01                    1619 	.db	1
+      00010C 00 00 80 A7           1620 	.dw	0,(Sdelay$_delay_us$15)
+      000110 0E                    1621 	.db	14
+      000111 04                    1622 	.uleb128	4
+      000112 01                    1623 	.db	1
+      000113 00 00 80 A9           1624 	.dw	0,(Sdelay$_delay_us$16)
+      000117 0E                    1625 	.db	14
+      000118 06                    1626 	.uleb128	6
+      000119 01                    1627 	.db	1
+      00011A 00 00 80 AB           1628 	.dw	0,(Sdelay$_delay_us$17)
+      00011E 0E                    1629 	.db	14
+      00011F 07                    1630 	.uleb128	7
+      000120 01                    1631 	.db	1
+      000121 00 00 80 AD           1632 	.dw	0,(Sdelay$_delay_us$18)
+      000125 0E                    1633 	.db	14
+      000126 08                    1634 	.uleb128	8
+      000127 01                    1635 	.db	1
+      000128 00 00 80 AF           1636 	.dw	0,(Sdelay$_delay_us$19)
+      00012C 0E                    1637 	.db	14
+      00012D 09                    1638 	.uleb128	9
+      00012E 01                    1639 	.db	1
+      00012F 00 00 80 B1           1640 	.dw	0,(Sdelay$_delay_us$20)
+      000133 0E                    1641 	.db	14
+      000134 0A                    1642 	.uleb128	10
+      000135 01                    1643 	.db	1
+      000136 00 00 80 B6           1644 	.dw	0,(Sdelay$_delay_us$21)
+      00013A 0E                    1645 	.db	14
+      00013B 02                    1646 	.uleb128	2
+      00013C 01                    1647 	.db	1
+      00013D 00 00 80 B8           1648 	.dw	0,(Sdelay$_delay_us$23)
+      000141 0E                    1649 	.db	14
+      000142 03                    1650 	.uleb128	3
+      000143 01                    1651 	.db	1
+      000144 00 00 80 BA           1652 	.dw	0,(Sdelay$_delay_us$24)
+      000148 0E                    1653 	.db	14
+      000149 04                    1654 	.uleb128	4
+      00014A 01                    1655 	.db	1
+      00014B 00 00 80 BC           1656 	.dw	0,(Sdelay$_delay_us$25)
+      00014F 0E                    1657 	.db	14
+      000150 05                    1658 	.uleb128	5
+      000151 01                    1659 	.db	1
+      000152 00 00 80 BE           1660 	.dw	0,(Sdelay$_delay_us$26)
+      000156 0E                    1661 	.db	14
+      000157 06                    1662 	.uleb128	6
+      000158 01                    1663 	.db	1
+      000159 00 00 80 BF           1664 	.dw	0,(Sdelay$_delay_us$27)
+      00015D 0E                    1665 	.db	14
+      00015E 08                    1666 	.uleb128	8
+      00015F 01                    1667 	.db	1
+      000160 00 00 80 C1           1668 	.dw	0,(Sdelay$_delay_us$28)
+      000164 0E                    1669 	.db	14
+      000165 0A                    1670 	.uleb128	10
+      000166 01                    1671 	.db	1
+      000167 00 00 80 C6           1672 	.dw	0,(Sdelay$_delay_us$29)
+      00016B 0E                    1673 	.db	14
+      00016C 02                    1674 	.uleb128	2
+      00016D 00                    1675 	.db	0
+      00016E 00                    1676 	.db	0
+      00016F 00                    1677 	.db	0
+                                   1678 
+                                   1679 	.area .debug_frame (NOLOAD)
+      000170 00 00                 1680 	.dw	0
+      000172 00 10                 1681 	.dw	Ldebug_CIE3_end-Ldebug_CIE3_start
+      000174                       1682 Ldebug_CIE3_start:
+      000174 FF FF                 1683 	.dw	0xffff
+      000176 FF FF                 1684 	.dw	0xffff
+      000178 01                    1685 	.db	1
+      000179 00                    1686 	.db	0
+      00017A 01                    1687 	.uleb128	1
+      00017B 7F                    1688 	.sleb128	-1
+      00017C 09                    1689 	.db	9
+      00017D 0C                    1690 	.db	12
+      00017E 08                    1691 	.uleb128	8
+      00017F 02                    1692 	.uleb128	2
+      000180 89                    1693 	.db	137
+      000181 01                    1694 	.uleb128	1
+      000182 00                    1695 	.db	0
+      000183 00                    1696 	.db	0
+      000184                       1697 Ldebug_CIE3_end:
+      000184 00 00 00 14           1698 	.dw	0,20
+      000188 00 00 01 70           1699 	.dw	0,(Ldebug_CIE3_start-4)
+      00018C 00 00 80 99           1700 	.dw	0,(Sdelay$_delay_cycl$1)	;initial loc
+      000190 00 00 00 0B           1701 	.dw	0,Sdelay$_delay_cycl$11-Sdelay$_delay_cycl$1
+      000194 01                    1702 	.db	1
+      000195 00 00 80 99           1703 	.dw	0,(Sdelay$_delay_cycl$1)
+      000199 0E                    1704 	.db	14
+      00019A 02                    1705 	.uleb128	2
+      00019B 00                    1706 	.db	0
